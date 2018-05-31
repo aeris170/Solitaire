@@ -20,7 +20,7 @@ public final class CustomMenuBar extends JMenuBar {
 	private JMenuItem about;
 
 	private JCheckBoxMenuItem deal3CardOption;
-
+ 
 	/**
 	 * Instantiates a new custom menu bar.
 	 */
