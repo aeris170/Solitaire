@@ -1,0 +1,118 @@
+package game;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import game.cards.Card;
+import game.cards.Deck;
+import game.cards.Foundation;
+import game.cards.Tableau;
+import game.io.GameMoveListener;
+import game.main.Window;
+
+public final class Game extends JPanel {
+
+	private static Game INSTANCE = null;
+
+	private static final long serialVersionUID = -4557572784451893202L;
+
+	private static final Dimension gameWindowDimension = new Dimension(600, 600);
+
+	private static final Point FIRST_TABLEAU_POSITON = new Point(20, 150);
+	private static final Point FIRST_FOUNDATION_POSITON = new Point(20, 20);
+	private static final Point DECK_POSITON = new Point(380, 20);
+
+	private static final Integer TABLEAU_OFFSET = 80;
+	private static final Integer FOUNDATION_OFFSET = 80;
+
+	private boolean bgImageError = false;
+
+	private Deck deck;
+	private Foundation[] foundations;
+	private Tableau[] tableau;
+
+	/**
+	 * Instantiates a new game.
+	 */
+	private Game() {
+		super();
+		super.setLayout(null);
+		super.setSize(gameWindowDimension);
+		super.setBackground(Color.BLACK);
+
+		setUpGame(FIRST_TABLEAU_POSITON, FIRST_FOUNDATION_POSITON, DECK_POSITON);
+
+		GameMoveListener l = new GameMoveListener();
+		super.addMouseListener(l);
+		super.addMouseMotionListener(l);
+	}
+
+	/**
+	 * Sets the up game. Instanties a deck, 7 tableaus, and 4 foundations. Deals
+	 * random cards to the tableaus accordingly. Puts all the components into
+	 * their respective places so they can be drawn in such a way that it would
+	 * look appealing.
+	 *
+	 * @param tableauPos the tableau position
+	 * @param foundationPos the foundation position
+	 * @param deckPos the deck position
+	 */
+	private void setUpGame(final Point tableauPos, final Point foundationPos, final Point deckPos) {
+		Card.constructRandomDeck();
+
+		tableau = new Tableau[7];
+		for (int tableauIndex = 1; tableauIndex <= tableau.length; tableauIndex++) {
+			tableau[tableauIndex - 1] = new Tableau((int) tableauPos.getX() + TABLEAU_OFFSET * (tableauIndex - 1), (int) tableauPos.getY());
+			for (int numberOfCards = 0; numberOfCards < tableauIndex; numberOfCards++) {
+				tableau[tableauIndex - 1].dealACard();
+			}
+			tableau[tableauIndex - 1].flipTopMost();
+			super.add(tableau[tableauIndex - 1]);
+		}
+
+		foundations = new Foundation[4];
+		for (int i = 0; i < foundations.length; i++) {
+			foundations[i] = new Foundation((int) foundationPos.getX() + FOUNDATION_OFFSET * i, (int) foundationPos.getY());
+			super.add(foundations[i]);
+		}
+
+		deck = new Deck((int) deckPos.getX(), (int) deckPos.getY());
+		deck.populate();
+		super.add(deck);
+	}
+
+	/**
+	 * Gets the single instance of Game.
+	 *
+	 * @return single instance of Game
+	 */
+	public static Game getInstance() {
+		return INSTANCE == null ? new Game() : INSTANCE;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+	 */
+	@Override
+	public void paintComponent(final Graphics g) {
+		super.paintComponent(g);
+
+		if (!bgImageError) {
+			try {
+				g.drawImage(ImageIO.read(super.getClass().getResource("/bg.jpg")), 0, 0, super.getWidth(), super.getHeight(), this);
+			} catch (final IOException | IllegalArgumentException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(Window.f, "Game's background image is missing. The game will start but won't look good. Re-download please.", "Error with background image", JOptionPane.ERROR_MESSAGE);
+				bgImageError = true;
+			}
+		}
+	}
+}
