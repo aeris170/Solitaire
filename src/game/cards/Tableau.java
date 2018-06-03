@@ -118,7 +118,9 @@ public final class Tableau extends JPanel {
 		Stack<Card> destinationStack = destination.getCards();
 		if (!destinationStack.empty()) {
 			if (destinationStack.peek().checkFoundationCompatibility(c)) {
-				destinationStack.push(cards.pop());
+				if (c == cards.peek()) {
+					destinationStack.push(cards.pop());
+				}
 			}
 		} else if (c.getRank() == 1) {
 			destinationStack.push(cards.pop());
