@@ -156,12 +156,10 @@ public final class Tableau extends JPanel {
 			final Card returnMe = (Card) cards.toArray()[index];
 			if(returnMe.isFaceUp()) {
 				return returnMe;
-			} else {
-				return (Card) cards.toArray()[cards.toArray().length - 1];
 			}
-		} else {
 			return (Card) cards.toArray()[cards.toArray().length - 1];
 		}
+		return (Card) cards.toArray()[cards.toArray().length - 1];
 	}
 
 	/*

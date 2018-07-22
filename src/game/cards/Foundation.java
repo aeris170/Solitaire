@@ -46,9 +46,8 @@ public final class Foundation extends JPanel {
 	public Card getTopCard() {
 		if(!cards.empty()) {
 			return cards.peek();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**

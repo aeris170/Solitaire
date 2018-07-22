@@ -96,9 +96,8 @@ public final class Deck extends JPanel {
 	public Card getWasteTopCard() {
 		if(!waste.empty()) {
 			return waste.peek();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
@@ -109,9 +108,8 @@ public final class Deck extends JPanel {
 	public Card popWasteTopCard() {
 		if(!waste.empty()) {
 			return waste.pop();
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/*
