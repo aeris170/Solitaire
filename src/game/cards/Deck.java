@@ -82,7 +82,6 @@ public final class Deck extends JPanel {
 		} else {
 			while(!waste.empty()) {
 				deck.push(waste.pop());
-				System.out.println(deck.peek());
 				deck.peek().flip();
 			}
 		}

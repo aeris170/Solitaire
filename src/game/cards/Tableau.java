@@ -81,7 +81,6 @@ public final class Tableau extends JPanel {
 				while(!cards.empty()) {
 					final Card tmp = cards.pop();
 					toBeMovedCards.push(tmp);
-					System.out.println(tmp + "" + c);
 					if(tmp.equals(c)) {
 						break;
 					}
