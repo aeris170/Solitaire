@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package game.cards;
 
@@ -53,8 +53,8 @@ public final class Tableau extends JPanel {
 	 * Check if there is no face up cards, if so flip top most.
 	 */
 	private void flipFaceDownCard() {
-		if (!cards.empty()) {
-			if (!cards.peek().isFaceUp()) {
+		if(!cards.empty()) {
+			if(!cards.peek().isFaceUp()) {
 				cards.peek().flip();
 			}
 		}
@@ -71,36 +71,36 @@ public final class Tableau extends JPanel {
 	 * Move from this tableau to another tableau.
 	 *
 	 * @param destination the destination tableau
-	 * @param c the card to move
+	 * @param c           the card to move
 	 */
 	public void moveTo(final Tableau destination, final Card c) {
-		Stack<Card> destinationStack = destination.cards;
-		if (!destinationStack.empty()) {
-			if (destinationStack.peek().checkTableauCompatibility(c)) {
-				Stack<Card> toBeMovedCards = new Stack<>();
-				while (!cards.empty()) {
-					Card tmp = cards.pop();
+		final Stack<Card> destinationStack = destination.cards;
+		if(!destinationStack.empty()) {
+			if(destinationStack.peek().checkTableauCompatibility(c)) {
+				final Stack<Card> toBeMovedCards = new Stack<>();
+				while(!cards.empty()) {
+					final Card tmp = cards.pop();
 					toBeMovedCards.push(tmp);
 					System.out.println(tmp + "" + c);
-					if (tmp.equals(c)) {
+					if(tmp.equals(c)) {
 						break;
 					}
 				}
-				while (!toBeMovedCards.empty()) {
+				while(!toBeMovedCards.empty()) {
 					destinationStack.push(toBeMovedCards.pop());
 				}
 			}
 		} else {
-			if (c.getRank() == 13) {
-				Stack<Card> toBeMovedCards = new Stack<>();
-				while (!cards.empty()) {
-					Card tmp = cards.pop();
+			if(c.getRank() == 13) {
+				final Stack<Card> toBeMovedCards = new Stack<>();
+				while(!cards.empty()) {
+					final Card tmp = cards.pop();
 					toBeMovedCards.push(tmp);
-					if (tmp.equals(c)) {
+					if(tmp.equals(c)) {
 						break;
 					}
 				}
-				while (!toBeMovedCards.empty()) {
+				while(!toBeMovedCards.empty()) {
 					destinationStack.push(toBeMovedCards.pop());
 				}
 			}
@@ -112,17 +112,17 @@ public final class Tableau extends JPanel {
 	 * Move from this tableau to a foundation.
 	 *
 	 * @param destination the destination foundation
-	 * @param c the card to move
+	 * @param c           the card to move
 	 */
 	public void moveTo(final Foundation destination, final Card c) {
-		Stack<Card> destinationStack = destination.getCards();
-		if (!destinationStack.empty()) {
-			if (destinationStack.peek().checkFoundationCompatibility(c)) {
-				if (c == cards.peek()) {
+		final Stack<Card> destinationStack = destination.getCards();
+		if(!destinationStack.empty()) {
+			if(destinationStack.peek().checkFoundationCompatibility(c)) {
+				if(c == cards.peek()) {
 					destinationStack.push(cards.pop());
 				}
 			}
-		} else if (c.getRank() == 1) {
+		} else if(c.getRank() == 1) {
 			destinationStack.push(cards.pop());
 		}
 		flipFaceDownCard();
@@ -132,14 +132,14 @@ public final class Tableau extends JPanel {
 	 * Move from deck.
 	 *
 	 * @param deck the deck
-	 * @param c the card to move
+	 * @param c    the card to move
 	 */
 	public void moveFromDeck(final Deck deck, final Card c) {
-		if (!cards.empty()) {
-			if (cards.peek().checkTableauCompatibility(c)) {
+		if(!cards.empty()) {
+			if(cards.peek().checkTableauCompatibility(c)) {
 				cards.push(deck.popWasteTopCard());
 			}
-		} else if (c.getRank() == 13) {
+		} else if(c.getRank() == 13) {
 			cards.push(deck.popWasteTopCard());
 		}
 	}
@@ -151,10 +151,10 @@ public final class Tableau extends JPanel {
 	 * @return the clicked card
 	 */
 	public Card findClickedCard(final int y) {
-		int index = y / 20;
-		if (index < cards.toArray().length) {
-			Card returnMe = (Card) cards.toArray()[index];
-			if (returnMe.isFaceUp()) {
+		final int index = y / 20;
+		if(index < cards.toArray().length) {
+			final Card returnMe = (Card) cards.toArray()[index];
+			if(returnMe.isFaceUp()) {
 				return returnMe;
 			} else {
 				return (Card) cards.toArray()[cards.toArray().length - 1];
@@ -172,7 +172,7 @@ public final class Tableau extends JPanel {
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 
-		Graphics2D g2d = (Graphics2D) g;
+		final Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setColor(Color.WHITE);
 		g2d.drawLine(0, 0, getWidth(), 0);
@@ -184,7 +184,7 @@ public final class Tableau extends JPanel {
 
 		final List<Card> handler = new ArrayList<>(cards);
 		int cardYPos = 0;
-		for (Card c : handler) {
+		for(final Card c : handler) {
 			g.drawImage(c.getCardImage(), 0, cardYPos, 72, 96, this);
 			cardYPos += 20;
 		}

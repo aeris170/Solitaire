@@ -44,12 +44,12 @@ public final class Game extends JPanel {
 	private Game() {
 		super();
 		super.setLayout(null);
-		super.setSize(gameWindowDimension);
+		super.setSize(Game.gameWindowDimension);
 		super.setBackground(Color.BLACK);
 
-		setUpGame(FIRST_TABLEAU_POSITON, FIRST_FOUNDATION_POSITON, DECK_POSITON);
+		setUpGame(Game.FIRST_TABLEAU_POSITON, Game.FIRST_FOUNDATION_POSITON, Game.DECK_POSITON);
 
-		GameMoveListener l = new GameMoveListener();
+		final GameMoveListener l = new GameMoveListener();
 		super.addMouseListener(l);
 		super.addMouseMotionListener(l);
 	}
@@ -60,17 +60,17 @@ public final class Game extends JPanel {
 	 * their respective places so they can be drawn in such a way that it would
 	 * look appealing.
 	 *
-	 * @param tableauPos the tableau position
+	 * @param tableauPos    the tableau position
 	 * @param foundationPos the foundation position
-	 * @param deckPos the deck position
+	 * @param deckPos       the deck position
 	 */
 	private void setUpGame(final Point tableauPos, final Point foundationPos, final Point deckPos) {
 		Card.constructRandomDeck();
 
 		tableau = new Tableau[7];
-		for (int tableauIndex = 1; tableauIndex <= tableau.length; tableauIndex++) {
-			tableau[tableauIndex - 1] = new Tableau((int) tableauPos.getX() + TABLEAU_OFFSET * (tableauIndex - 1), (int) tableauPos.getY());
-			for (int numberOfCards = 0; numberOfCards < tableauIndex; numberOfCards++) {
+		for(int tableauIndex = 1; tableauIndex <= tableau.length; tableauIndex++) {
+			tableau[tableauIndex - 1] = new Tableau((int) tableauPos.getX() + (Game.TABLEAU_OFFSET * (tableauIndex - 1)), (int) tableauPos.getY());
+			for(int numberOfCards = 0; numberOfCards < tableauIndex; numberOfCards++) {
 				tableau[tableauIndex - 1].dealACard();
 			}
 			tableau[tableauIndex - 1].flipTopMost();
@@ -78,8 +78,8 @@ public final class Game extends JPanel {
 		}
 
 		foundations = new Foundation[4];
-		for (int i = 0; i < foundations.length; i++) {
-			foundations[i] = new Foundation((int) foundationPos.getX() + FOUNDATION_OFFSET * i, (int) foundationPos.getY());
+		for(int i = 0; i < foundations.length; i++) {
+			foundations[i] = new Foundation((int) foundationPos.getX() + (Game.FOUNDATION_OFFSET * i), (int) foundationPos.getY());
 			super.add(foundations[i]);
 		}
 
@@ -94,7 +94,7 @@ public final class Game extends JPanel {
 	 * @return single instance of Game
 	 */
 	public static Game getInstance() {
-		return INSTANCE == null ? new Game() : INSTANCE;
+		return Game.INSTANCE == null ? new Game() : Game.INSTANCE;
 	}
 
 	/*
@@ -105,12 +105,13 @@ public final class Game extends JPanel {
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 
-		if (!bgImageError) {
+		if(!bgImageError) {
 			try {
 				g.drawImage(ImageIO.read(super.getClass().getResource("/bg.jpg")), 0, 0, super.getWidth(), super.getHeight(), this);
-			} catch (final IOException | IllegalArgumentException ex) {
+			} catch(final IOException | IllegalArgumentException ex) {
 				ex.printStackTrace();
-				JOptionPane.showMessageDialog(Window.f, "Game's background image is missing. The game will start but won't look good. Re-download please.", "Error with background image", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Window.f, "Game's background image is missing. The game will start but won't look good. Re-download please.",
+						"Error with background image", JOptionPane.ERROR_MESSAGE);
 				bgImageError = true;
 			}
 		}

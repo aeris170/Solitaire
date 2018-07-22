@@ -34,10 +34,11 @@ public final class Deck extends JPanel {
 	}
 
 	/**
-	 * Populate the deck. After dealing the cards to all tableaus, put all remaning cards in a full deck to this class's cards.
+	 * Populate the deck. After dealing the cards to all tableaus, put all
+	 * remaning cards in a full deck to this class's cards.
 	 */
 	public void populate() {
-		while (!Card.deck.empty()) {
+		while(!Card.deck.empty()) {
 			deck.push(Card.pop());
 		}
 	}
@@ -46,11 +47,11 @@ public final class Deck extends JPanel {
 	 * Deal the top card to the waste.
 	 */
 	public void dealTopCard() {
-		if (!deck.empty()) {
+		if(!deck.empty()) {
 			waste.push(deck.pop());
 			waste.peek().flip();
 		} else {
-			while (!waste.empty()) {
+			while(!waste.empty()) {
 				deck.push(waste.pop());
 				deck.peek().flip();
 			}
@@ -64,22 +65,22 @@ public final class Deck extends JPanel {
 		Card topMost = null;
 		Card secondMost = null;
 		Card thirdMost = null;
-		if (!deck.empty()) {
+		if(!deck.empty()) {
 			topMost = deck.pop();
 			topMost.flip();
 			waste.push(topMost);
-			if (!deck.empty()) {
+			if(!deck.empty()) {
 				secondMost = deck.pop();
 				secondMost.flip();
 				waste.push(secondMost);
 			}
-			if (!deck.empty()) {
+			if(!deck.empty()) {
 				thirdMost = deck.pop();
 				thirdMost.flip();
 				waste.push(thirdMost);
 			}
 		} else {
-			while (!waste.empty()) {
+			while(!waste.empty()) {
 				deck.push(waste.pop());
 				System.out.println(deck.peek());
 				deck.peek().flip();
@@ -93,7 +94,7 @@ public final class Deck extends JPanel {
 	 * @return the waste top card
 	 */
 	public Card getWasteTopCard() {
-		if (!waste.empty()) {
+		if(!waste.empty()) {
 			return waste.peek();
 		} else {
 			return null;
@@ -106,7 +107,7 @@ public final class Deck extends JPanel {
 	 * @return the waste top card
 	 */
 	public Card popWasteTopCard() {
-		if (!waste.empty()) {
+		if(!waste.empty()) {
 			return waste.pop();
 		} else {
 			return null;
@@ -120,37 +121,37 @@ public final class Deck extends JPanel {
 	@Override
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
+		final Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.setStroke(new BasicStroke(5));
 		g2d.setColor(Color.WHITE);
 		g2d.drawRect(108, 0, 72, getHeight());
 		g2d.setColor(new Color(255, 255, 255, 160));
 		g2d.fillRect(108, 0, 72, getHeight());
-		if (!deck.empty()) {
+		if(!deck.empty()) {
 			g.drawImage(CardImages.images[CardImages.images.length - 1], 108, 0, 72, getHeight(), this);
 		}
 		Card topMost = null;
 		Card secondMost = null;
 		Card thirdMost = null;
-		if (!waste.empty()) {
+		if(!waste.empty()) {
 			topMost = waste.pop();
 		}
-		if (!waste.empty()) {
+		if(!waste.empty()) {
 			secondMost = waste.pop();
 		}
-		if (!waste.empty()) {
+		if(!waste.empty()) {
 			thirdMost = waste.pop();
 		}
-		if (thirdMost != null) {
+		if(thirdMost != null) {
 			g.drawImage(thirdMost.getCardImage(), 0, 0, 72, getHeight(), this);
 			waste.push(thirdMost);
 		}
-		if (secondMost != null) {
+		if(secondMost != null) {
 			g.drawImage(secondMost.getCardImage(), 12, 0, 72, getHeight(), this);
 			waste.push(secondMost);
 		}
-		if (topMost != null) {
+		if(topMost != null) {
 			g.drawImage(topMost.getCardImage(), 24, 0, 72, getHeight(), this);
 			waste.push(topMost);
 		}

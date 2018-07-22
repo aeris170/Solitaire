@@ -25,7 +25,7 @@ public final class MovingCard extends JPanel {
 		super.setSize(80, 104);
 		super.setLocation(x - 36, y - 48);
 		super.setVisible(true);
-		this.movingCard = c;
+		movingCard = c;
 	}
 
 	/*
@@ -35,7 +35,7 @@ public final class MovingCard extends JPanel {
 	@Override
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
+		final Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(new BasicStroke(5));
 		g2d.setColor(Color.MAGENTA);
 		g2d.drawRect(0, 0, 72, 96);

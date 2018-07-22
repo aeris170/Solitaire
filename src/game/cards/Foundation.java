@@ -44,7 +44,7 @@ public final class Foundation extends JPanel {
 	 * @return the top card
 	 */
 	public Card getTopCard() {
-		if (!cards.empty()) {
+		if(!cards.empty()) {
 			return cards.peek();
 		} else {
 			return null;
@@ -57,23 +57,23 @@ public final class Foundation extends JPanel {
 	 * @return true, if the tableau has a king
 	 */
 	public boolean checkCompleteness() {
-		return !cards.empty() && cards.peek().getRank() == 13;
+		return !cards.empty() && (cards.peek().getRank() == 13);
 	}
 
 	/**
 	 * Move from this foundation to another foundation.
 	 *
 	 * @param destination the destination foundation
-	 * @param c the card to move
+	 * @param c           the card to move
 	 */
 	public void moveTo(final Foundation destination, final Card c) {
-		Stack<Card> destinationStack = destination.cards;
-		if (!destinationStack.empty()) {
-			if (destinationStack.peek().checkFoundationCompatibility(c)) {
+		final Stack<Card> destinationStack = destination.cards;
+		if(!destinationStack.empty()) {
+			if(destinationStack.peek().checkFoundationCompatibility(c)) {
 				destinationStack.push(cards.pop());
 			}
 		} else {
-			if (c.getRank() == 1) {
+			if(c.getRank() == 1) {
 				destinationStack.push(cards.pop());
 			}
 		}
@@ -83,16 +83,16 @@ public final class Foundation extends JPanel {
 	 * Move from this foundation to a tableau.
 	 *
 	 * @param destination the destination tableau
-	 * @param c the card to move
+	 * @param c           the card to move
 	 */
 	public void moveTo(final Tableau destination, final Card c) {
-		Stack<Card> destinationStack = destination.getCards();
-		if (!destinationStack.empty()) {
-			if (destinationStack.peek().checkTableauCompatibility(c)) {
+		final Stack<Card> destinationStack = destination.getCards();
+		if(!destinationStack.empty()) {
+			if(destinationStack.peek().checkTableauCompatibility(c)) {
 				destinationStack.push(cards.pop());
 			}
 		} else {
-			if (c.getRank() == 13) {
+			if(c.getRank() == 13) {
 				destinationStack.push(cards.pop());
 			}
 		}
@@ -102,14 +102,14 @@ public final class Foundation extends JPanel {
 	 * Move from deck.
 	 *
 	 * @param deck the deck
-	 * @param c the card to move
+	 * @param c    the card to move
 	 */
 	public void moveFromDeck(final Deck deck, final Card c) {
-		if (!cards.empty()) {
-			if (cards.peek().checkFoundationCompatibility(c)) {
+		if(!cards.empty()) {
+			if(cards.peek().checkFoundationCompatibility(c)) {
 				cards.push(deck.popWasteTopCard());
 			}
-		} else if (c.getRank() == 1) {
+		} else if(c.getRank() == 1) {
 			cards.push(deck.popWasteTopCard());
 		}
 	}
@@ -122,7 +122,7 @@ public final class Foundation extends JPanel {
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 
-		Graphics2D g2 = (Graphics2D) g;
+		final Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2.setStroke(new BasicStroke(8));
@@ -134,7 +134,7 @@ public final class Foundation extends JPanel {
 		g2.setColor(Color.GREEN.darker().darker().darker());
 		g2.drawString("A", 20, 60);
 
-		if (!cards.isEmpty()) {
+		if(!cards.isEmpty()) {
 			g.drawImage(cards.peek().getCardImage(), 0, 0, getWidth(), getHeight(), this);
 		}
 	}

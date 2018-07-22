@@ -3,8 +3,8 @@ package game.main;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import game.Game;
 import game.CustomMenuBar;
+import game.Game;
 
 public final class Window {
 
@@ -17,7 +17,7 @@ public final class Window {
 	 */
 	public static void main(final String[] args) {
 		SwingUtilities.invokeLater(() -> {
-			createAndShowGUI();
+			Window.createAndShowGUI();
 		});
 	}
 
@@ -25,9 +25,9 @@ public final class Window {
 	 * Restart game.
 	 */
 	public static void restartGame() {
-		f.dispose();
+		Window.f.dispose();
 		SwingUtilities.invokeLater(() -> {
-			createAndShowGUI();
+			Window.createAndShowGUI();
 		});
 	}
 
@@ -36,14 +36,14 @@ public final class Window {
 	 */
 	private static void createAndShowGUI() {
 		System.out.println("Created GUI on EDT? " + SwingUtilities.isEventDispatchThread());
-		f = new JFrame("Solitaire");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Window.f = new JFrame("Solitaire");
+		Window.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// TODO f.setIconImage(icon);
-		f.add(Game.getInstance());
-		f.setJMenuBar(new CustomMenuBar());
-		f.setResizable(false);
-		f.setSize(600, 600);
-		f.setLocationByPlatform(true);
-		f.setVisible(true);
+		Window.f.add(Game.getInstance());
+		Window.f.setJMenuBar(new CustomMenuBar());
+		Window.f.setResizable(false);
+		Window.f.setSize(600, 600);
+		Window.f.setLocationByPlatform(true);
+		Window.f.setVisible(true);
 	}
 }
