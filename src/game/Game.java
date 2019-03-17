@@ -2,8 +2,11 @@ package game;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -19,8 +22,6 @@ import game.main.Window;
 
 public final class Game extends JPanel {
 
-	private static Game INSTANCE = null;
-
 	private static final long serialVersionUID = -4557572784451893202L;
 
 	private static final Dimension gameWindowDimension = new Dimension(600, 600);
@@ -34,14 +35,12 @@ public final class Game extends JPanel {
 
 	private boolean bgImageError = false;
 
-	private Deck deck;
 	private Foundation[] foundations;
-	private Tableau[] tableau;
 
 	/**
 	 * Instantiates a new game.
 	 */
-	private Game() {
+	public Game() {
 		super();
 		super.setLayout(null);
 		super.setSize(Game.gameWindowDimension);
@@ -56,21 +55,21 @@ public final class Game extends JPanel {
 
 	/**
 	 * Sets the up game. Instanties a deck, 7 tableaus, and 4 foundations. Deals
-	 * random cards to the tableaus accordingly. Puts all the components into
-	 * their respective places so they can be drawn in such a way that it would
-	 * look appealing.
+	 * random cards to the tableaus accordingly. Puts all the components into their
+	 * respective places so they can be drawn in such a way that it would look
+	 * appealing.
 	 *
-	 * @param tableauPos    the tableau position
+	 * @param tableauPos the tableau position
 	 * @param foundationPos the foundation position
-	 * @param deckPos       the deck position
+	 * @param deckPos the deck position
 	 */
 	private void setUpGame(final Point tableauPos, final Point foundationPos, final Point deckPos) {
 		Card.constructRandomDeck();
 
-		tableau = new Tableau[7];
-		for(int tableauIndex = 1; tableauIndex <= tableau.length; tableauIndex++) {
-			tableau[tableauIndex - 1] = new Tableau((int) tableauPos.getX() + (Game.TABLEAU_OFFSET * (tableauIndex - 1)), (int) tableauPos.getY());
-			for(int numberOfCards = 0; numberOfCards < tableauIndex; numberOfCards++) {
+		Tableau[] tableau = new Tableau[7];
+		for (int tableauIndex = 1; tableauIndex <= tableau.length; tableauIndex++) {
+			tableau[tableauIndex - 1] = new Tableau((int) tableauPos.getX() + Game.TABLEAU_OFFSET * (tableauIndex - 1), (int) tableauPos.getY());
+			for (int numberOfCards = 0; numberOfCards < tableauIndex; numberOfCards++) {
 				tableau[tableauIndex - 1].dealACard();
 			}
 			tableau[tableauIndex - 1].flipTopMost();
@@ -78,42 +77,44 @@ public final class Game extends JPanel {
 		}
 
 		foundations = new Foundation[4];
-		for(int i = 0; i < foundations.length; i++) {
-			foundations[i] = new Foundation((int) foundationPos.getX() + (Game.FOUNDATION_OFFSET * i), (int) foundationPos.getY());
+		for (int i = 0; i < foundations.length; i++) {
+			foundations[i] = new Foundation((int) foundationPos.getX() + Game.FOUNDATION_OFFSET * i, (int) foundationPos.getY());
 			super.add(foundations[i]);
 		}
 
-		deck = new Deck((int) deckPos.getX(), (int) deckPos.getY());
+		Deck deck = new Deck((int) deckPos.getX(), (int) deckPos.getY());
 		deck.populate();
 		super.add(deck);
 	}
 
-	/**
-	 * Gets the single instance of Game.
-	 *
-	 * @return single instance of Game
-	 */
-	public static Game getInstance() {
-		return Game.INSTANCE == null ? new Game() : Game.INSTANCE;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) */
 	@Override
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
 
-		if(!bgImageError) {
+		if (!bgImageError) {
 			try {
 				g.drawImage(ImageIO.read(super.getClass().getResource("/bg.jpg")), 0, 0, super.getWidth(), super.getHeight(), this);
-			} catch(final IOException | IllegalArgumentException ex) {
+			} catch (final IOException | IllegalArgumentException ex) {
 				ex.printStackTrace();
 				JOptionPane.showMessageDialog(Window.f, "Game's background image is missing. The game will start but won't look good. Re-download please.",
-						"Error with background image", JOptionPane.ERROR_MESSAGE);
+				        "Error with background image", JOptionPane.ERROR_MESSAGE);
 				bgImageError = true;
 			}
+		}
+
+		boolean isGameOver = true;
+		for (int i = 0; i < foundations.length; i++) {
+			if (!foundations[i].checkCompleteness()) {
+				isGameOver = false;
+			}
+		}
+		if (isGameOver) {
+			g.setFont(new Font("Georgia", Font.BOLD, 42));
+			g.setColor(Color.BLACK);
+			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			g.drawString("YOU WIN!!!!!!!!", 130, 300);
 		}
 	}
 }

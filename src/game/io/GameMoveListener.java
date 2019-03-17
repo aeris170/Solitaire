@@ -27,40 +27,44 @@ public class GameMoveListener extends MouseInputAdapter {
 	private Deck selectedDeck = null;
 	private Card selectedCard = null;
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
-	 */
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent) */
 	@Override
 	public void mousePressed(final MouseEvent e) {
 		pressed = e;
 		final Component pressedComponent = e.getComponent().getComponentAt(e.getPoint());
-		if(pressedComponent instanceof Foundation) {
+		if (pressedComponent instanceof Foundation) {
 			selectedFoundation = (Foundation) pressedComponent;
 			selectedTableau = null;
 			selectedDeck = null;
 			selectedCard = selectedFoundation.getTopCard();
-			movingCard = new MovingCard(selectedCard, e.getX(), e.getY());
-			((JPanel) e.getComponent()).add(movingCard, 0);
-		} else if(pressedComponent instanceof Tableau) {
+			if (selectedCard != null) {
+				movingCard = new MovingCard(selectedCard, e.getX(), e.getY());
+				((JPanel) e.getComponent()).add(movingCard, 0);
+			}
+		} else if (pressedComponent instanceof Tableau) {
 			selectedTableau = (Tableau) pressedComponent;
 			selectedFoundation = null;
 			selectedDeck = null;
 			// FIXME error check arrayindexoutofbounds array is empty
 			selectedCard = selectedTableau.findClickedCard(e.getY() - 150);
-			movingCard = new MovingCard(selectedCard, e.getX(), e.getY());
-			((JPanel) e.getComponent()).add(movingCard, 0);
-		} else if(pressedComponent instanceof Deck) {
+			if (selectedCard != null) {
+				movingCard = new MovingCard(selectedCard, e.getX(), e.getY());
+				((JPanel) e.getComponent()).add(movingCard, 0);
+			}
+		} else if (pressedComponent instanceof Deck) {
 			selectedDeck = (Deck) pressedComponent;
 			selectedFoundation = null;
 			selectedTableau = null;
 			final int clickX = e.getX();
-			if((clickX > 380) && (clickX < 476)) {
+			if (clickX > 380 && clickX < 476) {
 				selectedCard = selectedDeck.getWasteTopCard();
-				movingCard = new MovingCard(selectedCard, e.getX(), e.getY());
-				((JPanel) e.getComponent()).add(movingCard, 0);
-			} else if((clickX > 488) && (clickX < 560)) {
-				if(((CustomMenuBar) Window.f.getJMenuBar()).isDeal3CardSelected()) {
+				if (selectedCard != null) {
+					movingCard = new MovingCard(selectedCard, e.getX(), e.getY());
+					((JPanel) e.getComponent()).add(movingCard, 0);
+				}
+			} else if (clickX > 488 && clickX < 560) {
+				if (((CustomMenuBar) Window.f.getJMenuBar()).isDeal3CardSelected()) {
 					selectedDeck.dealTopThreeCards();
 				} else {
 					selectedDeck.dealTopCard();
@@ -70,37 +74,34 @@ public class GameMoveListener extends MouseInputAdapter {
 		e.getComponent().repaint();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
-	 */
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent) */
 	@Override
 	public void mouseReleased(final MouseEvent e) {
-		if(selectedCard != null) {
-			((JPanel) e.getComponent()).remove(movingCard);// TODO WOW, PUT THIS
-															// LINE AT THE END
-															// OF THIS METHOD,
-															// AND NO CARD CAN
-															// BE
-			// MOVEDDDDDD. skype: resarf13 add me for any questions about why.
-			// hahahahaha
+		if (selectedCard != null) {
+			((JPanel) e.getComponent()).remove(movingCard);
+			// TODO WOW, PUT THIS
+			// LINE AT THE END
+			// OF THIS METHOD,
+			// AND NO CARD CAN
+			// BE MOVEDDDDDD.
 			final Component releasedComponent = e.getComponent().getComponentAt(e.getPoint());
-			if(releasedComponent instanceof Foundation) {
-				if(selectedTableau != null) {
+			if (releasedComponent instanceof Foundation) {
+				if (selectedTableau != null) {
 					// MOVING FROM TABLEAU TO FOUNDATION
 					final Tableau source = selectedTableau;
 					final Foundation destination = (Foundation) releasedComponent;
 					source.moveTo(destination, selectedCard);
 					source.repaint();
 					destination.repaint();
-				} else if(selectedDeck != null) {
+				} else if (selectedDeck != null) {
 					// MOVING FROM DECK TO FOUNDATION
 					final Deck source = selectedDeck;
 					final Foundation destination = (Foundation) releasedComponent;
 					destination.moveFromDeck(source, selectedCard);
 					source.repaint();
 					destination.repaint();
-				} else if(selectedFoundation != null) {
+				} else if (selectedFoundation != null) {
 					// MOVING FROM FOUNDATION TO FOUNDATION
 					final Foundation source = selectedFoundation;
 					final Foundation destination = (Foundation) releasedComponent;
@@ -108,15 +109,15 @@ public class GameMoveListener extends MouseInputAdapter {
 					source.repaint();
 					destination.repaint();
 				}
-			} else if(releasedComponent instanceof Tableau) {
-				if(selectedTableau != null) {
+			} else if (releasedComponent instanceof Tableau) {
+				if (selectedTableau != null) {
 					// MOVING FROM TABLEAU TO TABLEAU
 					final Tableau source = selectedTableau;
 					final Tableau destination = (Tableau) releasedComponent;
 					source.moveTo(destination, selectedCard);
 					source.repaint();
 					destination.repaint();
-				} else if(selectedDeck != null) {
+				} else if (selectedDeck != null) {
 					// MOVING FROM DECK TO TABLEAU
 					System.out.println(selectedCard);
 					final Deck source = selectedDeck;
@@ -124,7 +125,7 @@ public class GameMoveListener extends MouseInputAdapter {
 					destination.moveFromDeck(source, selectedCard);
 					source.repaint();
 					destination.repaint();
-				} else if(selectedFoundation != null) {
+				} else if (selectedFoundation != null) {
 					// MOVING FROM FOUNDATION TO TABLEAU
 					final Foundation source = selectedFoundation;
 					final Tableau destination = (Tableau) releasedComponent;
@@ -139,15 +140,13 @@ public class GameMoveListener extends MouseInputAdapter {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent)
-	 */
+	/* (non-Javadoc)
+	 * @see java.awt.event.MouseAdapter#mouseDragged(java.awt.event.MouseEvent) */
 	@Override
 	public void mouseDragged(final MouseEvent e) {
-		if((selectedCard != null) && (movingCard != null)) {
+		if (selectedCard != null && movingCard != null) {
 			location = movingCard.getLocation(location);
-			movingCard.setLocation((location.x - pressed.getX()) + e.getX(), (location.y - pressed.getY()) + e.getY());
+			movingCard.setLocation(location.x - pressed.getX() + e.getX(), location.y - pressed.getY() + e.getY());
 			pressed = e;
 		}
 	}

@@ -28,10 +28,8 @@ public final class MovingCard extends JPanel {
 		movingCard = c;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-	 */
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics) */
 	@Override
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);

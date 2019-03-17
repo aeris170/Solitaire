@@ -49,6 +49,7 @@ public final class Card {
 	 * @return the color of the card
 	 */
 	public String getColor() {
+		// not very good, but i'm lazy. USE ENUMS NEXT TIME!
 		return suit.equals("h") || suit.equals("d") ? "Red" : "Black";
 	}
 
@@ -65,7 +66,7 @@ public final class Card {
 	 * @return true, if the card is face up
 	 */
 	public boolean isFaceUp() {
-		return faceUp == true;
+		return faceUp;
 	}
 
 	/**
@@ -75,7 +76,7 @@ public final class Card {
 	 * @return true, if card is compatible with the top card in tableau
 	 */
 	public boolean checkTableauCompatibility(final Card c) {
-		return (rank == (c.rank + 1)) && !getColor().equals(c.getColor());
+		return rank == c.rank + 1 && !getColor().equals(c.getColor());
 	}
 
 	/**
@@ -85,69 +86,69 @@ public final class Card {
 	 * @return true, if card is compatible with the top card in foundation
 	 */
 	public boolean checkFoundationCompatibility(final Card c) {
-		return (rank == (c.rank - 1)) && suit.equals(c.suit);
+		return rank == c.rank - 1 && suit.equals(c.suit);
 	}
 
 	/**
 	 * Construct random deck.
 	 */
 	public static void constructRandomDeck() {
-		Card.deck = new Stack<>();
+		deck = new Stack<>();
 
-		Card.deck.add(new Card(1, "h"));
-		Card.deck.add(new Card(1, "d"));
-		Card.deck.add(new Card(1, "c"));
-		Card.deck.add(new Card(1, "s"));
-		Card.deck.add(new Card(2, "h"));
-		Card.deck.add(new Card(2, "d"));
-		Card.deck.add(new Card(2, "c"));
-		Card.deck.add(new Card(2, "s"));
-		Card.deck.add(new Card(3, "h"));
-		Card.deck.add(new Card(3, "d"));
-		Card.deck.add(new Card(3, "c"));
-		Card.deck.add(new Card(3, "s"));
-		Card.deck.add(new Card(4, "h"));
-		Card.deck.add(new Card(4, "d"));
-		Card.deck.add(new Card(4, "c"));
-		Card.deck.add(new Card(4, "s"));
-		Card.deck.add(new Card(5, "h"));
-		Card.deck.add(new Card(5, "d"));
-		Card.deck.add(new Card(5, "c"));
-		Card.deck.add(new Card(5, "s"));
-		Card.deck.add(new Card(6, "h"));
-		Card.deck.add(new Card(6, "d"));
-		Card.deck.add(new Card(6, "c"));
-		Card.deck.add(new Card(6, "s"));
-		Card.deck.add(new Card(7, "h"));
-		Card.deck.add(new Card(7, "d"));
-		Card.deck.add(new Card(7, "c"));
-		Card.deck.add(new Card(7, "s"));
-		Card.deck.add(new Card(8, "h"));
-		Card.deck.add(new Card(8, "d"));
-		Card.deck.add(new Card(8, "c"));
-		Card.deck.add(new Card(8, "s"));
-		Card.deck.add(new Card(9, "h"));
-		Card.deck.add(new Card(9, "d"));
-		Card.deck.add(new Card(9, "c"));
-		Card.deck.add(new Card(9, "s"));
-		Card.deck.add(new Card(10, "h"));
-		Card.deck.add(new Card(10, "d"));
-		Card.deck.add(new Card(10, "c"));
-		Card.deck.add(new Card(10, "s"));
-		Card.deck.add(new Card(11, "h"));
-		Card.deck.add(new Card(11, "d"));
-		Card.deck.add(new Card(11, "c"));
-		Card.deck.add(new Card(11, "s"));
-		Card.deck.add(new Card(12, "h"));
-		Card.deck.add(new Card(12, "d"));
-		Card.deck.add(new Card(12, "c"));
-		Card.deck.add(new Card(12, "s"));
-		Card.deck.add(new Card(13, "h"));
-		Card.deck.add(new Card(13, "d"));
-		Card.deck.add(new Card(13, "c"));
-		Card.deck.add(new Card(13, "s"));
+		deck.add(new Card(1, "h"));
+		deck.add(new Card(1, "d"));
+		deck.add(new Card(1, "c"));
+		deck.add(new Card(1, "s"));
+		deck.add(new Card(2, "h"));
+		deck.add(new Card(2, "d"));
+		deck.add(new Card(2, "c"));
+		deck.add(new Card(2, "s"));
+		deck.add(new Card(3, "h"));
+		deck.add(new Card(3, "d"));
+		deck.add(new Card(3, "c"));
+		deck.add(new Card(3, "s"));
+		deck.add(new Card(4, "h"));
+		deck.add(new Card(4, "d"));
+		deck.add(new Card(4, "c"));
+		deck.add(new Card(4, "s"));
+		deck.add(new Card(5, "h"));
+		deck.add(new Card(5, "d"));
+		deck.add(new Card(5, "c"));
+		deck.add(new Card(5, "s"));
+		deck.add(new Card(6, "h"));
+		deck.add(new Card(6, "d"));
+		deck.add(new Card(6, "c"));
+		deck.add(new Card(6, "s"));
+		deck.add(new Card(7, "h"));
+		deck.add(new Card(7, "d"));
+		deck.add(new Card(7, "c"));
+		deck.add(new Card(7, "s"));
+		deck.add(new Card(8, "h"));
+		deck.add(new Card(8, "d"));
+		deck.add(new Card(8, "c"));
+		deck.add(new Card(8, "s"));
+		deck.add(new Card(9, "h"));
+		deck.add(new Card(9, "d"));
+		deck.add(new Card(9, "c"));
+		deck.add(new Card(9, "s"));
+		deck.add(new Card(10, "h"));
+		deck.add(new Card(10, "d"));
+		deck.add(new Card(10, "c"));
+		deck.add(new Card(10, "s"));
+		deck.add(new Card(11, "h"));
+		deck.add(new Card(11, "d"));
+		deck.add(new Card(11, "c"));
+		deck.add(new Card(11, "s"));
+		deck.add(new Card(12, "h"));
+		deck.add(new Card(12, "d"));
+		deck.add(new Card(12, "c"));
+		deck.add(new Card(12, "s"));
+		deck.add(new Card(13, "h"));
+		deck.add(new Card(13, "d"));
+		deck.add(new Card(13, "c"));
+		deck.add(new Card(13, "s"));
 
-		Collections.shuffle(Card.deck);
+		Collections.shuffle(deck);
 	}
 
 	/**
@@ -165,26 +166,24 @@ public final class Card {
 	 * @return the card image
 	 */
 	public BufferedImage getCardImage() {
-		if(faceUp) {
+		if (faceUp) {
 			int suitInteger = -10;
-			if(suit.equals("c")) {
+			if (suit.equals("c")) {
 				suitInteger = 0;
-			} else if(suit.equals("s")) {
+			} else if (suit.equals("s")) {
 				suitInteger = 1;
-			} else if(suit.equals("h")) {
+			} else if (suit.equals("h")) {
 				suitInteger = 2;
-			} else if(suit.equals("d")) {
+			} else if (suit.equals("d")) {
 				suitInteger = 3;
 			}
-			return CardImages.images[((suitInteger * 13) + rank) - 1];
+			return CardImages.images[suitInteger * 13 + rank - 1];
 		}
 		return CardImages.images[CardImages.images.length - 1];
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString() */
 	@Override
 	public String toString() {
 		return rank + suit;

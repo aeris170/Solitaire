@@ -36,15 +36,10 @@ public final class CustomMenuBar extends JMenuBar {
 
 		deal3CardOption = new JCheckBoxMenuItem("Deal 3 cards from deck instead of 1");
 
-		newGame.addActionListener(e -> {
-			Window.restartGame();
-		});
-		exitGame.addActionListener(e -> {
-			System.exit(0);
-		});
-		about.addActionListener(e -> {
-			JOptionPane.showMessageDialog(Window.f, "Solitaire: Written in two days, by Doða Oruç. skype: resarf13", "About", JOptionPane.INFORMATION_MESSAGE);
-		});
+		newGame.addActionListener(e -> Window.restartGame());
+		exitGame.addActionListener(e -> System.exit(0));
+		about.addActionListener(
+		        e -> JOptionPane.showMessageDialog(Window.f, "Solitaire: Written in two days, by Doða Oruç. skype: resarf13", "About", JOptionPane.INFORMATION_MESSAGE));
 
 		menu.add(newGame);
 		menu.add(exitGame);

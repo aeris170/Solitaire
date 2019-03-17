@@ -10,6 +10,8 @@ import game.main.Window;
 
 public final class CardImages {
 
+	private CardImages() {}
+
 	public static BufferedImage[] images;
 
 	private static BufferedImage back;
@@ -134,10 +136,10 @@ public final class CardImages {
 			CardImages.images[51] = CardImages.dk;
 
 			CardImages.images[52] = CardImages.back;
-		} catch(final IOException | IllegalArgumentException ex) {
+		} catch (final IOException | IllegalArgumentException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(Window.f, "One or more of the card images are missing from the file. The game won't start. Re-download please.", "Error with card images",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(Window.f, "One or more of the card images are missing from the file. The game won't start. Re-download please.",
+			        "Error with card images", JOptionPane.ERROR_MESSAGE);
 			System.exit(-2);
 		}
 	}
