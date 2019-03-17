@@ -66,7 +66,7 @@ public final class Game extends JPanel {
 	private void setUpGame(final Point tableauPos, final Point foundationPos, final Point deckPos) {
 		Card.constructRandomDeck();
 
-		Tableau[] tableau = new Tableau[7];
+		final Tableau[] tableau = new Tableau[7];
 		for (int tableauIndex = 1; tableauIndex <= tableau.length; tableauIndex++) {
 			tableau[tableauIndex - 1] = new Tableau((int) tableauPos.getX() + Game.TABLEAU_OFFSET * (tableauIndex - 1), (int) tableauPos.getY());
 			for (int numberOfCards = 0; numberOfCards < tableauIndex; numberOfCards++) {
@@ -82,7 +82,7 @@ public final class Game extends JPanel {
 			super.add(foundations[i]);
 		}
 
-		Deck deck = new Deck((int) deckPos.getX(), (int) deckPos.getY());
+		final Deck deck = new Deck((int) deckPos.getX(), (int) deckPos.getY());
 		deck.populate();
 		super.add(deck);
 	}
