@@ -1,4 +1,5 @@
 # Java Solitaire
+![social](https://repository-images.githubusercontent.com/135561173/0a61ee80-bfca-11e9-81a4-c6cec453b20e)
 A game of Solitaire written in Java. Uses Stacks for Tableaus, Foundations, and Deck. Uses Swing for GUI.
 
 ## Features:
